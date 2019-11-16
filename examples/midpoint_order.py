@@ -10,11 +10,16 @@ key = "1:1111111111111111111111111111111111111111111111111111111111111111"
 # create a QtradeAPI object and pass it the API endpoint and our API key
 api = QtradeAPI("https://api.qtrade.io", key=key)
 
+# keep track of the active order's information
 active_order = None
+
+# the string identifier of the market we want to trade on.
+# market strings are always in (market coin | base coin) format
+market = 'DOGE_BTC'
 
 while True:
     # get the ticker for the DOGE/BTC market
-    res = api.get("/v1/ticker/DOGE_BTC")
+    res = api.get("/v1/ticker/" + market)
 
     # calculate the midpoint of the market
     bid, ask = Decimal(res['bid']), Decimal(res['ask'])
@@ -25,7 +30,7 @@ while True:
         # place an order to buy as much DOGE as we can for .00011 BTC
         # fees will be taken from our BTC balance when the order is placed
         active_order = api.order('buy_limit', midpoint, value=0.00011,
-                                 market_string='DOGE_BTC', prevent_taker=True)['order']
+                                 market_string=market, prevent_taker=True)['order']
     else:
         # cancel the old order if the midpoint has changed since it was placed
         if midpoint != Decimal(active_order['price']):
@@ -39,6 +44,6 @@ while True:
         # place a new order if the old one got cancelled or filled
         if active_order['open'] is not True:
             active_order = api.order('buy_limit', midpoint, value=0.00011,
-                                     market_string='DOGE_BTC', prevent_taker=True)['order']
-    print(active_order)
+                                     market_string=market, prevent_taker=True)['order']
+
     time.sleep(5)
