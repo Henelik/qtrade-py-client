@@ -2,6 +2,14 @@ from decimal import Decimal
 from qtrade_client.api import QtradeAPI, APIException
 import time
 
+"""
+Every 5 seconds, find the market midpoint.
+Create a buy order at the midpoint and track it.
+If the order gets filled or cancelled by another user
+(e.g. a user on the website), create a new one.
+If the market's midpoint changes, cancel the order and make a new one.
+"""
+
 COIN = Decimal('.00000001')
 
 # replace this with your API key to test this example
