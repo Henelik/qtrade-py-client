@@ -1,5 +1,5 @@
 from decimal import Decimal
-from qtrade_client.api import QtradeAPI, APIException
+from qtrade_client.api import QtradeAPI
 import time
 
 """

@@ -1,6 +1,5 @@
 from decimal import Decimal
-from qtrade_client.api import QtradeAPI, APIException
-import time
+from qtrade_client.api import QtradeAPI
 
 """
 Estimate the balance of the account in USD.
@@ -51,6 +50,7 @@ def coin_to_btc(coin, amount):
 # convert BTC to USD
 def btc_to_usd(amount):
     global api
+
     # get the BTC/USD conversion rate from the API
     btc_price = api.get('/v1/currency/BTC')['currency']['config']['price']
 
